@@ -1,93 +1,53 @@
 package com.example.EmployeePayroll.controller;
-<<<<<<< HEAD
 
-package com.example.EmployeePayroll.Controller;
-=======
->>>>>>> UC2
+import com.example.EmployeePayroll.dto.EmployeeDTO;
 import com.example.EmployeePayroll.model.EmployeeModel;
+import com.example.EmployeePayroll.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< HEAD
-import com.example.EmployeePayroll.Repository.employeeRepo;
-=======
-import com.example.EmployeePayroll.repository.employeeRepo;
->>>>>>> UC2
-import java.util.List;
 
+import java.util.List;
 import java.util.Optional;
+
 @RestController
-<<<<<<< HEAD
-@RequestMapping("/employee")
-=======
 @RequestMapping("/employeepayrollservice")
->>>>>>> UC2
 public class EmployeeController {
     @Autowired
-    employeeRepo employeeRepository;
+    private EmployeeService employeeService;
 
-<<<<<<< HEAD
-
-    //http:localhost:8080/employee/findall
-    @GetMapping("/findall")
-=======
-    //localhost:8080/employeepayrollservice/
-
+    // Get all employees
     @GetMapping("/")
->>>>>>> UC2
     public List<EmployeeModel> getAllUsers() {
-        return employeeRepository.findAll();
+        return employeeService.getAllUsers();
     }
 
-<<<<<<< HEAD
-    //http:localhost:8080/employee/findallgetbyid/1
-    @GetMapping("getbyid/{id}")
-=======
-    //localhost:8080/employeepayrollservice
-
+    // Get employee by ID
     @GetMapping("/get/{id}")
->>>>>>> UC2
     public ResponseEntity<EmployeeModel> getUserById(@PathVariable Long id) {
-        return employeeRepository.findById(id)
+        return employeeService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-<<<<<<< HEAD
 
-    //http:localhost:8080/employee/create/post
-    @PostMapping("create/post")
-=======
-    //http://localhost:8080/employeepayrollservice/create
-    @PostMapping("create")
->>>>>>> UC2
-    public EmployeeModel createUser(@RequestBody EmployeeModel employee) {
-        return employeeRepository.save(employee);
+    // Create employee
+    @PostMapping("/create")
+    public EmployeeModel createUser(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createUser(employeeDTO);
     }
 
-<<<<<<< HEAD
-    //http:localhost:8080/employee/update/1
-=======
-
-    //http://localhost:8080/employeepayrollservice/update
->>>>>>> UC2
-    @PutMapping("update/{id}")
-    public ResponseEntity<EmployeeModel> updateUser(@PathVariable Long id, @RequestBody EmployeeModel userDetails) {
-        Optional<EmployeeModel> optionalUser = employeeRepository.findById(id);
-
-        if (optionalUser.isPresent()) {
-            EmployeeModel user = optionalUser.get();
-            user.setName(userDetails.getName());
-            user.setEmail(userDetails.getEmail());
-            return ResponseEntity.ok(employeeRepository.save(user));
-        }
-        return ResponseEntity.notFound().build();
+    // Update employee
+    @PutMapping("/update/{id}")
+    public ResponseEntity<EmployeeModel> updateUser(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.updateUser(id, employeeDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    //http:localhost:8080/employee/delete/1
-    @DeleteMapping("delete/{id}")
+    // Delete employee
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        if (employeeRepository.existsById(id)) {
-            employeeRepository.deleteById(id);
+        if (employeeService.deleteUser(id)) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

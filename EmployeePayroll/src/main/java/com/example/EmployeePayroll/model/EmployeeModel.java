@@ -1,11 +1,8 @@
 package com.example.EmployeePayroll.model;
+
+import com.example.EmployeePayroll.dto.EmployeeDTO;
 import jakarta.persistence.*;
 import lombok.*;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 
 @Entity
 @Getter
@@ -18,5 +15,11 @@ public class EmployeeModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String email;
+    private double salary;  // Ensure salary field exists
+
+    // Constructor to initialize from DTO
+    public EmployeeModel(EmployeeDTO employeeDTO) {
+        this.name = employeeDTO.getName();
+        this.salary = employeeDTO.getSalary();
+    }
 }
