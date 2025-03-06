@@ -13,6 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeeController {
+
     @Autowired
     private EmployeeService employeeService;
 
@@ -47,9 +48,7 @@ public class EmployeeController {
     // Delete employee
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        if (employeeService.deleteUser(id)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        boolean deleted = employeeService.deleteUser(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

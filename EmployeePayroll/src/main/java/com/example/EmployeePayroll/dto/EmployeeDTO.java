@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EmployeeDTO {
     private String name;
-    private double salary;  // Ensure this field is included
+    private double salary;
 }

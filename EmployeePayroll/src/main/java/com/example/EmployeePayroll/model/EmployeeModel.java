@@ -15,7 +15,7 @@ public class EmployeeModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private double salary;  // Ensure salary field exists
+    private double salary;
 
     // Constructor to initialize from DTO
     public EmployeeModel(EmployeeDTO employeeDTO) {
