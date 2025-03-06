@@ -17,13 +17,11 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    // Get all employees
     @GetMapping("/")
     public List<EmployeeModel> getAllUsers() {
         return employeeService.getAllUsers();
     }
 
-    // Get employee by ID
     @GetMapping("/get/{id}")
     public ResponseEntity<EmployeeModel> getUserById(@PathVariable Long id) {
         return employeeService.getUserById(id)
@@ -31,13 +29,11 @@ public class EmployeeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Create employee
     @PostMapping("/create")
     public EmployeeModel createUser(@RequestBody EmployeeDTO employeeDTO) {
         return employeeService.createUser(employeeDTO);
     }
 
-    // Update employee
     @PutMapping("/update/{id}")
     public ResponseEntity<EmployeeModel> updateUser(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
         return employeeService.updateUser(id, employeeDTO)
@@ -45,7 +41,6 @@ public class EmployeeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Delete employee
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         boolean deleted = employeeService.deleteUser(id);

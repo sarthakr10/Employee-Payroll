@@ -1,6 +1,5 @@
 package com.example.EmployeePayroll.model;
 
-import com.example.EmployeePayroll.dto.EmployeeDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,10 +15,4 @@ public class EmployeeModel {
     private Long id;
     private String name;
     private double salary;
-
-    // Constructor to initialize from DTO
-    public EmployeeModel(EmployeeDTO employeeDTO) {
-        this.name = employeeDTO.getName();
-        this.salary = employeeDTO.getSalary();
-    }
 }
