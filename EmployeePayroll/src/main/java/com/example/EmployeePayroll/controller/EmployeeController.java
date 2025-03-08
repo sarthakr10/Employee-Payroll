@@ -4,30 +4,30 @@ import com.example.EmployeePayroll.dto.EmployeeDTO;
 import com.example.EmployeePayroll.model.EmployeeModel;
 import com.example.EmployeePayroll.service.EmployeeService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping("/")
-    public List<EmployeeModel> getAllUsers() {
-        return employeeService.getAllUsers();
+    public ResponseEntity<List<EmployeeModel>> getAllUsers() {
+        return ResponseEntity.ok(employeeService.getAllUsers());
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<EmployeeModel> getUserById(@PathVariable Long id) {
-        return employeeService.getUserById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        EmployeeModel employee = employeeService.getUserById(id); // Throws exception if not found
+        return ResponseEntity.ok(employee);
     }
 
     @PostMapping("/create")
@@ -38,14 +38,13 @@ public class EmployeeController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<EmployeeModel> updateUser(@PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.updateUser(id, employeeDTO)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        EmployeeModel updatedEmployee = employeeService.updateUser(id, employeeDTO); // Throws exception if not found
+        return ResponseEntity.ok(updatedEmployee);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        boolean deleted = employeeService.deleteUser(id);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        employeeService.deleteUser(id); // Throws exception if not found
+        return ResponseEntity.ok("Employee deleted successfully");
     }
 }
